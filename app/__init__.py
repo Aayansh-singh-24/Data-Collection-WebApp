@@ -10,11 +10,6 @@ login_manager = LoginManager()
 
 
 def create_app() -> Flask:
-    """
-    Application factory that configures Flask for different environments
-    (development vs production) based on environment variables.
-    """
-
     load_dotenv()
 
     from .config import DevelopmentConfig, ProductionConfig
@@ -31,7 +26,6 @@ def create_app() -> Flask:
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     login_manager.login_message_category = "info"
-    login_manager.login_message = "Please log in to access this page."
 
     with app.app_context():
         from . import models
@@ -40,11 +34,6 @@ def create_app() -> Flask:
 
         register_blueprints(app)
         register_auth_blueprint(app)
-
-        # Create tables only when explicitly allowed
-        auto_create_tables = os.environ.get("AUTO_CREATE_TABLES", "true").lower() == "true"
-        if auto_create_tables:
-            db.create_all()
 
     return app
 
