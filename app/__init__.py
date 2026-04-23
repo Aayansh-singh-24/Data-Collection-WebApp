@@ -10,6 +10,11 @@ login_manager = LoginManager()
 
 
 def create_app() -> Flask:
+    """
+    Application factory that configures Flask for different environments
+    (development vs production) based on environment variables.
+    """
+
     load_dotenv()
 
     from .config import DevelopmentConfig, ProductionConfig
@@ -26,6 +31,7 @@ def create_app() -> Flask:
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     login_manager.login_message_category = "info"
+    login_manager.login_message = "Please log in to access this page."
 
     with app.app_context():
         from . import models

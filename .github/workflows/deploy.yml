@@ -10,13 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-  
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-  
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -25,12 +23,10 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app:latest .
 
-    
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
 
-      # 🚀 Deploy to EC2 (FIXED)
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -38,20 +34,35 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Pull latest image
+            set -e
+
+            echo "Pulling latest image..."
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
 
-            # Stop & remove old container
+            echo "Stopping old container if it exists..."
             sudo docker stop flask-container || true
             sudo docker rm flask-container || true
 
-            # Run new container WITH ENV VARIABLES ✅
+            echo "Creating tables once..."
+            sudo docker run --rm \
+              -e FLASK_ENV=production \
+              -e SECRET_KEY='${{ secrets.SECRET_KEY }}' \
+              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+              ${{ secrets.DOCKER_USERNAME }}/flask-app:latest \
+              python -c "from app import create_app, db; app=create_app(); app.app_context().push(); db.create_all()"
+
+            echo "Starting app container..."
             sudo docker run -d \
               -p 5000:8000 \
               --name flask-container \
-              -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
-              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e FLASK_ENV=production \
+              -e SECRET_KEY='${{ secrets.SECRET_KEY }}' \
+              -e DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+              --restart unless-stopped \
               ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
 
-            # Show running containers
-            sudo docker ps
+            echo "Container status:"
+            sudo docker ps -a
+
+            echo "Container logs:"
+            sudo docker logs flask-container --tail 100 || true
