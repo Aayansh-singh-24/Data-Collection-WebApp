@@ -3,32 +3,20 @@
 {% block title %}Submit Your Data{% endblock %}
 
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-xl-8 col-lg-9 col-md-10 col-12">
-      <div class="card shadow-sm border-0 app-card">
+  <div class="row justify-content-center w-100">
+    <div class="col-xl-7 col-lg-8 col-md-10 col-12">
+      <div class="card border-0 app-card">
         <div class="card-body p-4 p-md-5">
           <div class="text-center mb-4">
             <div class="form-icon mb-3">
               <span class="icon-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
-                  <path
-                    d="M4 5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v2.5c0 .8-.5 1.5-1.2 1.8L13 12.5l-7.8-3.2C4.5 9 4 8.3 4 7.5V5Z"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="m13 12.5 6.4-2.7c.4-.2.6-.6.6-1V15c0 .8-.5 1.5-1.2 1.8L13 19.5l-7.8-3.2C4.5 16 4 15.3 4 14.5V8.8c0 .4.2.8.6 1L13 12.5Z"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v2.5c0 .8-.5 1.5-1.2 1.8L13 12.5l-7.8-3.2C4.5 9 4 8.3 4 7.5V5Z"/>
+                  <path d="m13 12.5 6.4-2.7c.4-.2.6-.6.6-1V15c0 .8-.5 1.5-1.2 1.8L13 19.5l-7.8-3.2C4.5 16 4 15.3 4 14.5V8.8c0 .4.2.8.6 1L13 12.5Z"/>
                 </svg>
               </span>
             </div>
-            <h1 class="h4 mb-2">Store your details safely</h1>
+            <h1 class="h4 fw-bold mb-2" style="color:#f8fafc;">Store your details safely</h1>
             <p class="text-muted small mb-0">
               Enter your information below and it will be stored securely in the configured database.
             </p>
@@ -37,30 +25,44 @@
           <form method="post" novalidate>
             <div class="mb-3">
               <label for="name" class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control form-control-lg"
-                id="name"
-                name="name"
-                placeholder="John Doe"
-                autocomplete="name"
-                required
-              />
+              <div class="input-group">
+                <span class="input-group-text">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="name"
+                  name="name"
+                  placeholder="John doe"
+                  autocomplete="name"
+                  required
+                />
+              </div>
               <div class="form-text">Use your full name so you can recognize this entry later.</div>
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control form-control-lg"
-                id="email"
-                name="email"
-                placeholder="john@example.com"
-                autocomplete="email"
-                required
-              />
-              <div class="form-text">We’ll only use this for identifying your submission.</div>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                  </svg>
+                </span>
+                <input
+                  type="email"
+                  class="form-control form-control-lg"
+                  id="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="form-text">We'll only use this for identifying your submission.</div>
             </div>
 
             <div class="mb-4">
@@ -80,7 +82,7 @@
               <button type="submit" class="btn btn-primary btn-lg">
                 Save to Database
               </button>
-              <p class="text-muted text-center small mb-0">
+              <p class="text-muted text-center small mb-0 mt-2">
                 Your data is stored in your MySQL database behind the scenes.
               </p>
             </div>
