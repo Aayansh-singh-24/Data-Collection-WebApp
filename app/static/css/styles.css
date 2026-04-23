@@ -1,72 +1,260 @@
+/* ─── Base & Typography ─── */
 body {
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.01em;
 }
 
+/* ─── Animated Mesh Background ─── */
 .app-body {
   min-height: 100vh;
-  background: radial-gradient(circle at top left, #e0f2fe 0, transparent 55%),
-    radial-gradient(circle at bottom right, #fce7f3 0, transparent 55%), #f5f5f9;
+  background:
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(220,39%,30%,1) 0, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(280,39%,30%,1) 0, transparent 50%);
+  background-size: 200% 200%;
+  animation: gradientMove 15s ease infinite;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
 }
 
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Decorative floating orbs */
+.app-body::before,
+.app-body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-body::before {
+  width: 500px;
+  height: 500px;
+  background: #6366f1;
+  top: -10%;
+  left: -10%;
+  animation: floatOrb 20s ease-in-out infinite;
+}
+
+.app-body::after {
+  width: 400px;
+  height: 400px;
+  background: #ec4899;
+  bottom: -10%;
+  right: -10%;
+  animation: floatOrb 25s ease-in-out infinite reverse;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ─── Layout ─── */
 .app-main {
   flex: 1;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding-bottom: 3rem;
+  position: relative;
+  z-index: 1;
 }
 
+/* ─── Navbar ─── */
 .glass-nav {
-  backdrop-filter: blur(14px);
-  background: rgba(15, 23, 42, 0.9);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(15, 23, 42, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
 .brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
 }
 
+.navbar .btn {
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── Cards ─── */
 .app-card {
-  border-radius: 1.3rem;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 18px 45px rgba(15, 23, 42, 0.1),
-    0 8px 18px rgba(15, 23, 42, 0.08);
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(16px);
+    0 24px 60px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  color: #e2e8f0;
 }
 
+.app-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.3),
+    0 12px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.app-card .card-body {
+  color: #e2e8f0;
+}
+
+.app-card .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* ─── Buttons ─── */
 .btn-primary {
-  box-shadow: 0 0.9rem 1.5rem rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border: none;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
   border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.5);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-primary:focus-visible {
-  box-shadow:
-    0 0.9rem 1.5rem rgba(59, 130, 246, 0.4),
-    0 0 0 0.2rem rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
 }
 
+/* Outline light button */
+.btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ─── Form Controls ─── */
 .form-control,
 .form-control:focus {
-  border-radius: 0.9rem;
+  border-radius: 0.85rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control::placeholder {
+  color: #64748b;
+}
+
+.form-control:focus {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 0 4px 20px rgba(99, 102, 241, 0.1);
+  color: #f1f5f9;
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f1f5f9;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(15, 23, 42, 0.6) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-label {
   font-weight: 500;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
 }
 
+.form-text {
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+}
+
+/* Input groups */
+.input-group-text {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+  color: #94a3b8;
+  border-radius: 0.85rem 0 0 0.85rem;
+  padding-left: 1rem;
+  padding-right: 0.75rem;
+}
+
+.input-group .form-control {
+  border-radius: 0 0.85rem 0.85rem 0;
+  border-left: none;
+}
+
+.input-group .form-control:focus {
+  border-left: none;
+}
+
+/* ─── Icons ─── */
 .form-icon {
   display: flex;
   justify-content: center;
@@ -76,29 +264,92 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 0, #e5f4ff, #dbeafe);
-  color: #2563eb;
-  box-shadow: 0 12px 24px rgba(59, 130, 246, 0.35);
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(139, 92, 246, 0.15));
+  color: #818cf8;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Auth page link colors */
+.icon-circle:hover {
+  transform: scale(1.05) rotate(3deg);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.35);
+}
+
+/* ─── Alerts ─── */
+.alert {
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.alert-info {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.25);
+  color: #93c5fd;
+}
+
+/* ─── Links ─── */
 a.text-decoration-none.fw-semibold {
-  color: #2563eb;
+  color: #818cf8;
+  transition: color 0.2s ease;
 }
 
 a.text-decoration-none.fw-semibold:hover {
-  color: #1d4ed8;
+  color: #a5b4fc;
 }
 
-/* Navbar button spacing */
-.navbar .btn {
-  font-weight: 500;
+/* ─── Page Entrance Animation ─── */
+.app-card {
+  animation: cardEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-/* Responsive tweaks */
+@keyframes cardEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation for form elements */
+.app-card .form-label,
+.app-card .form-control,
+.app-card .btn {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.app-card .form-label:nth-child(1) { animation-delay: 0.1s; }
+.app-card .form-control:nth-child(2) { animation-delay: 0.15s; }
+.app-card .btn { animation-delay: 0.25s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 575.98px) {
   .app-main {
     padding-inline: 1rem;
@@ -107,7 +358,15 @@ a.text-decoration-none.fw-semibold:hover {
   }
 
   .app-card {
-    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+    border-radius: 1.2rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .app-body::before,
+  .app-body::after {
+    width: 250px;
+    height: 250px;
+    filter: blur(60px);
   }
 }
 
@@ -117,6 +376,12 @@ a.text-decoration-none.fw-semibold:hover {
   }
 
   .card-body {
-    padding: 1.25rem !important;
+    padding: 1.5rem !important;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
   }
 }
+

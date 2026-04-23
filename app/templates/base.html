@@ -25,9 +25,9 @@
           <span class="brand-mark">DB</span>
           <span>Flask Data Entry</span>
         </a>
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2 gap-md-3">
           {% if current_user.is_authenticated %}
-            <span class="text-light small">Hi, {{ current_user.username }}</span>
+            <span class="text-light small d-none d-sm-inline">Hi, {{ current_user.username }}</span>
             <a class="btn btn-outline-light btn-sm rounded-pill px-3" href="{{ url_for('auth.logout') }}">Logout</a>
           {% else %}
             <a class="btn btn-outline-light btn-sm rounded-pill px-3" href="{{ url_for('auth.login') }}">Sign In</a>
@@ -37,14 +37,14 @@
       </div>
     </nav>
 
-    <main class="container app-main">
+    <main class="container app-main" style="display: flex; flex-direction: column;">
       {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-          <div class="mt-2">
+          <div class="mt-2 w-100">
             {% for category, message in messages %}
-              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             {% endfor %}
           </div>
