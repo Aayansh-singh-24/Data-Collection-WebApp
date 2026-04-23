@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_required
 
 from . import db
 from .models import Submission
@@ -8,6 +9,7 @@ main_bp = Blueprint("main", __name__)
 
 
 @main_bp.route("/", methods=["GET", "POST"])
+@login_required
 def index():
     if request.method == "POST":
         name = request.form.get("name", "").strip()

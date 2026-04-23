@@ -84,6 +84,20 @@ body {
   box-shadow: 0 12px 24px rgba(59, 130, 246, 0.35);
 }
 
+/* Auth page link colors */
+a.text-decoration-none.fw-semibold {
+  color: #2563eb;
+}
+
+a.text-decoration-none.fw-semibold:hover {
+  color: #1d4ed8;
+}
+
+/* Navbar button spacing */
+.navbar .btn {
+  font-weight: 500;
+}
+
 /* Responsive tweaks */
 @media (max-width: 575.98px) {
   .app-main {
