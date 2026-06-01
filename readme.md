@@ -1,4 +1,4 @@
-# 🚀 Flask Application with CI/CD & Docker Deployment  
+# Flask Application with CI/CD & Docker Deployment  
 
 A production-style Flask web application deployed using Docker, GitHub Actions (CI/CD), and AWS EC2.
 
