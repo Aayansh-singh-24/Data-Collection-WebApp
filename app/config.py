@@ -20,6 +20,9 @@ class DevelopmentConfig(Config):
     ENV = "development"
 
 
+
+
+
 class ProductionConfig(Config):
     """Configuration for production deployments."""
 
